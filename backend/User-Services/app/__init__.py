@@ -16,10 +16,11 @@ def create_app():
     db.init_app(app)
     bcrypt.init_app(app)
     jwt.init_app(app)
-    # import modules for authentication,post and users
-    from .routes import auth, posts, users
-    app.register_blueprint(auth)
-    app.register_blueprint(posts)
-    app.register_blueprint(users)
+    # # import modules for authentication,post and users
+
+    from .routes import user_blueprint
+    # app.register_blueprint(auth)
+    # app.register_blueprint(posts)
+    app.register_blueprint(user_blueprint)
 
     return app
