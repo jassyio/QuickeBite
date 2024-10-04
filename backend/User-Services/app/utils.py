@@ -1,17 +1,29 @@
-from flask_bcrypt import Bcrypt
+# from flask_bcrypt import Bcrypt
 from flask_mail import Mail, Message
 from flask import current_app
 from itsdangerous import URLSafeTimedSerializer
+from argon2 import PasswordHasher
 
-bcrypt = Bcrypt()
+# bcrypt = Bcrypt()
+ph = PasswordHasher()
 mail = Mail()
 
+# def hash_password(password):
+#     # return bcrypt.generate_password_hash(password).decode('utf-8')
+
+# def check_password(hashed_password, password):
+#     # return bcrypt.check_password_hash(hashed_password, password)
+
 def hash_password(password):
-    return bcrypt.generate_password_hash(password).decode('utf-8')
+    return ph.hash(password)
 
 def check_password(hashed_password, password):
-    return bcrypt.check_password_hash(hashed_password, password)
-
+    try:
+        return ph.verify(hashed_password, password)
+    except Exception as e:
+        print(f'Error verifying password: {e}')
+        return False
+    
 def generate_token(email, purpose):
     s = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
     return s.dumps({'email': email, 'purpose': purpose})
