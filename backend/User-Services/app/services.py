@@ -8,17 +8,22 @@ from flask import current_app
 def create_user(username, email, password):
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     try:
-        user = User(username=username, email=email, password=hashed_password)
+        user = User(username=username, email=email, password_hash=hashed_password)
         db.session.add(user)
         db.session.commit()
         return user.id
+    
     # this ensures the db remain consistent state and prevent any partial update
     except IntegrityError:
         db.session.rollback()
         return None
-# This function attempts to authenticate a user by querying the database for a user with the provided email.
-# If a user is found and the provided password matches the hashed password stored in the database, the user's ID is returned.
-# If no user is found or the passwords do not match, the function returns None.
+    
+"""
+    This function attempts to authenticate a user by querying the database for a user with the provided email.
+    If a user is found and the provided password matches the hashed password stored in the database, the user's ID is returned.
+    If no user is found or the passwords do not match, the function returns None.
+"""
+
 def authenticate_user(email, password):
     user = User.query.filter_by(email=email).first()
     if user and bcrypt.check_password_hash(user.password, password):
