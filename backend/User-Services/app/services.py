@@ -3,8 +3,11 @@ from datetime import datetime, timedelta
 from app.models import User, db
 from app.utils import hash_password, check_password
 from flask import current_app
+import logging
 
+logging.basicConfig(level=logging.INFO)
 def create_user(data):
+    logging.info("Creating user")
     hashed_password = hash_password(data['password'])
     user = User(name=data['name'], email=data['email'], password=hashed_password)
     db.session.add(user)
@@ -12,6 +15,7 @@ def create_user(data):
     return user
 
 def authenticate_user(email, password):
+    logging.info("Authenticating user")
     user = User.query.filter_by(email=email).first()
     if user and check_password(password, user.password):
         # Generate JWT
@@ -23,4 +27,5 @@ def authenticate_user(email, password):
     return None
 
 def get_user_by_email(email):
+    logging.info("Getting user by email")
     return User.query.filter_by(email=email).first()
