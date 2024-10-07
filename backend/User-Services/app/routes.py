@@ -12,11 +12,17 @@ user_blueprint = Blueprint('user_blueprint', __name__)
 @user_blueprint.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
+    
+    if not data or 'username' not in data or 'email' not in data or 'password' not in data:
+        return jsonify({"message": "Invalid input"}), 400  # Explicit validation
+
     user = create_user(data['username'], data['email'], data['password'])
+    
     if user:
         send_verification_email(user)
         return jsonify({"message": "User registered successfully. Please verify your email."}), 201
-    return jsonify({"message": "User registration failed"}), 400
+    else:
+        return jsonify({"message": "User registration failed"}), 400
 
 
 @user_blueprint.route('/login', methods=['POST'])

@@ -26,10 +26,12 @@ def test_email_verification(client):
         'email': 'testuser@example.com',
         'password': 'password123'
     })
+    db.session.commit()
     
     # Get user from database
     user = User.query.filter_by(email='testuser@example.com').first()
-    assert user is not None
+    if user is None:
+        pytest.fail("User should not be None")
 
     # Verify email token
     token = generate_token(user.email, 'email-confirm')
@@ -38,7 +40,7 @@ def test_email_verification(client):
 
     # Ensure the email_verified field is updated
     user = User.query.filter_by(email='testuser@example.com').first()
-    assert user.email_verified == True
+    assert user.email_verified
 
 def test_invalid_email_verification_token(client):
     # Test invalid email verification token
@@ -112,7 +114,7 @@ def test_expired_password_reset_token(client, mocker):
     user = User.query.filter_by(email='testuser@example.com').first()
 
     # Manually set the password_reset_sent_at to a time in the past to simulate an expired token
-    expired_time = datetime.utcnow() - timedelta(hours=2)
+    expired_time = datetime.now(datetime.timezone.utc) - timedelta(hours=2)
     mocker.patch.object(User, 'password_reset_sent_at', new_callable=mocker.PropertyMock, return_value=expired_time)
 
     # Attempt to reset password with expired token
