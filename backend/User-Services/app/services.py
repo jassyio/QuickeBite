@@ -4,6 +4,7 @@ from app.models import User, db
 from app.utils import hash_password, check_password
 from flask import current_app
 import logging
+from database.redis.init_redis import get_redis_client
 
 logging.basicConfig(level=logging.INFO)
 def create_user(data):
@@ -29,3 +30,12 @@ def authenticate_user(email, password):
 def get_user_by_email(email):
     logging.info("Getting user by email")
     return User.query.filter_by(email=email).first()
+
+def store_user_session(user_id, token):
+    redis_client = get_redis_client()
+    redis_client.set(f"user_session:{user_id}", token, ex=current_app.config['JWT_EXPIRATION_DELTA'])
+
+def get_user_session(user_id):
+    redis_client = get_redis_client()
+    token = redis_client.get(f"user_session:{user_id}")
+    return token.decode() if token else None
