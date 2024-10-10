@@ -1,12 +1,7 @@
 from flask import Flask
 from app.routes import delivery_blueprint
-from flask_sqlachemy import SQLAlchemy
-from flask_migrate import Migrate
-from config import Config
+from database.mysql.init_mysql import migrate, db
 
-db = SQLAlchemy()
-
-migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)

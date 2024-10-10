@@ -1,4 +1,4 @@
-from app import db
+from database.mysql.init_mysql import db
 
 class Delivery(db.Model):
     __tablename__ = 'deliveries'
