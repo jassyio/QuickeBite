@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - JWT_SECRET=your_jwt_secret
+    depends_on:
+      - user-service
+      - restaurant-service
+      - order-service
+      - delivery-service
+      - admin-service
+
+  user-service:
+    build: ./user-service
+    environment:
+      - DATABASE_URL=mysql://user:password@mysql-db/user_db
+      - JWT_SECRET=your_jwt_secret
+      - RABBITMQ_URL=amqp://rabbitmq
+
+  restaurant-service:
+    build: ./restaurant-service
+    environment:
+      - MONGODB_URI=mongodb://mongo-db/restaurant_db
+      - RABBITMQ_URL=amqp://rabbitmq
+
+  order-service:
+    build: ./order-service
+    environment:
+      - MONGODB_URI=mongodb://mongo-db/order_db
+      - RABBITMQ_URL=amqp://rabbitmq
+
+  delivery-service:
+    build: ./delivery-service
+    environment:
+      - DATABASE_URL=mysql://user:password@mysql-db/delivery_db
+      - RABBITMQ_URL=amqp://rabbitmq
+
+  admin-service:
+    build: ./admin-service
+    environment:
+      - MONGODB_URI=mongodb://mongo-db/admin_db
+      - JWT_SECRET=your_jwt_secret
+      - RABBITMQ_URL=amqp://rabbitmq
+
+  mysql-db:
+    image: mysql:8
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=user_db
+    volumes:
+      - ./database/mysql:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+
+  mongo-db:
+    image: mongo:4
+    volumes:
+      - ./database/mongodb:/docker-entrypoint-initdb.d
+      - mongo_data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  redis:
+    image: redis:6
+    volumes:
+      - ./database/redis:/data
+      - redis_data:/data
+
+volumes:
+  mysql_data:
+  mongo_data:
+  redis_data:
