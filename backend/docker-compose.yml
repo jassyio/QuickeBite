@@ -6,7 +6,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - JWT_SECRET=your_jwt_secret
+      - JWT_SECRET=lewis@uon
     depends_on:
       - user-service
       - restaurant-service
@@ -18,7 +18,7 @@ services:
     build: ./user-service
     environment:
       - DATABASE_URL=mysql://user:password@mysql-db/user_db
-      - JWT_SECRET=your_jwt_secret
+      - JWT_SECRET=lewis@uon
       - RABBITMQ_URL=amqp://rabbitmq
 
   restaurant-service:
@@ -43,7 +43,7 @@ services:
     build: ./admin-service
     environment:
       - MONGODB_URI=mongodb://mongo-db/admin_db
-      - JWT_SECRET=your_jwt_secret
+      - JWT_SECRET=lewis@uon
       - RABBITMQ_URL=amqp://rabbitmq
 
   mysql-db:
