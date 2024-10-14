@@ -1,30 +1,44 @@
 from flask import Blueprint, request, jsonify
-from app.services import create_delivery, get_delivery_by_id
-from app.utils import token_required
+from flask_jwt_extended import jwt_required
+from .services import DeliveryService
 
-delivery_blueprint = Blueprint('deliveries', __name__)
+delivery_bp = Blueprint('delivery', __name__)
+delivery_service = DeliveryService()
 
-# Create a new delivery (Requires JWT authentication)
-@delivery_blueprint.route('/', methods=['POST'])
-@token_required
-def create_delivery_route(user_id):
+@delivery_bp.route('/deliveries', methods=['POST'])
+@jwt_required()
+def create_delivery():
     data = request.get_json()
-    delivery = create_delivery(user_id, data['address'])  # Use user_id from the JWT token
-    return jsonify({
-        "message": "Delivery created successfully",
-        "delivery_id": delivery.id
-    }), 201
+    result = delivery_service.create_delivery(data)
+    return jsonify(result), 201 if 'id' in result else 400
 
-# Get details of a specific delivery (Requires JWT authentication)
-@delivery_blueprint.route('/<int:delivery_id>', methods=['GET'])
-@token_required
-def get_delivery_route(user_id, delivery_id):
-    delivery = get_delivery_by_id(delivery_id)
-    if delivery and delivery.user_id == user_id:
-        return jsonify({
-            "delivery_id": delivery.id,
-            "user_id": delivery.user_id,
-            "address": delivery.address,
-            "status": delivery.status
-        }), 200
-    return jsonify({"error": "Delivery not found or unauthorized"}), 404
+@delivery_bp.route('/deliveries', methods=['GET'])
+@jwt_required()
+def get_all_deliveries():
+    deliveries = delivery_service.get_all_deliveries()
+    return jsonify(deliveries), 200
+
+@delivery_bp.route('/deliveries/<int:delivery_id>', methods=['GET'])
+@jwt_required()
+def get_delivery(delivery_id):
+    delivery = delivery_service.get_delivery_by_id(delivery_id)
+    if delivery:
+        return jsonify(delivery), 200
+    return jsonify({'message': 'Delivery not found'}), 404
+
+@delivery_bp.route('/deliveries/<int:delivery_id>', methods=['PUT'])
+@jwt_required()
+def update_delivery(delivery_id):
+    data = request.get_json()
+    result = delivery_service.update_delivery(delivery_id, data)
+    if result:
+        return jsonify(result), 200
+    return jsonify({'message': 'Delivery not found'}), 404
+
+@delivery_bp.route('/deliveries/<int:delivery_id>', methods=['DELETE'])
+@jwt_required()
+def delete_delivery(delivery_id):
+    result = delivery_service.delete_delivery(delivery_id)
+    if result:
+        return jsonify({'message': 'Delivery deleted successfully'}), 200
+    return jsonify({'message': 'Delivery not found'}), 404

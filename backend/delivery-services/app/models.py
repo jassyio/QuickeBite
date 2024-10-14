@@ -1,11 +1,15 @@
-from database.mysql.init_mysql import db
+from . import db
+from datetime import datetime
 
 class Delivery(db.Model):
-    __tablename__ = 'deliveries'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, nullable=False)
-    address = db.Column(db.String(255), nullable=False)
-    status = db.Column(db.String(50), nullable=False, default='Pending')
-    
+    order_id = db.Column(db.Integer, nullable=False)
+    driver_id = db.Column(db.Integer, nullable=True)
+    status = db.Column(db.String(20), default='pending')
+    pickup_time = db.Column(db.DateTime, nullable=True)
+    delivery_time = db.Column(db.DateTime, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
     def __repr__(self):
         return f'<Delivery {self.id}>'

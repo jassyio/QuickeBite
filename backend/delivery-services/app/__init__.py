@@ -1,17 +1,18 @@
 from flask import Flask
-from app.routes import delivery_blueprint
-from database.mysql.init_mysql import migrate, db
+from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
 
+db = SQLAlchemy()
+jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('Config')
+    app.config.from_object('config.Config')
 
     db.init_app(app)
+    jwt.init_app(app)
 
-    migrate.init__app(app, db)
-    
-    # Register Blueprints
-    app.register_blueprint(delivery_blueprint, url_prefix='/deliveries')
-    
+    from .routes import delivery_bp
+    app.register_blueprint(delivery_bp)
+
     return app
