@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from .routes import user_blueprint
+from flask_jwt_extended import JWTManager
 
 
 db = SQLAlchemy()
