@@ -16,6 +16,6 @@ def create_app():
     bcrypt.init_app(app)
     jwt.init_app(app)
 
-    app.register_blueprint(user_bp)
+    app.register_blueprint(user_blueprint)
 
     return app
