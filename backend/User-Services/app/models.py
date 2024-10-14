@@ -13,6 +13,7 @@ class User(db.Model):
     email_verified = db.Column(db.Boolean, default=False)
     password_reset_token = db.Column(db.String(200), nullable=True)
     password_reset_sent_at = db.Column(db.DateTime, nullable=True)
+    
     def __rep__(self):
         return f'<User {self.username}>'
     
