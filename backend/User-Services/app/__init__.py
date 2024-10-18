@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from .routes import user_blueprint
 from flask_jwt_extended import JWTManager
 
 
@@ -17,6 +16,7 @@ def create_app():
     bcrypt.init_app(app)
     jwt.init_app(app)
 
+    from .routes import user_blueprint
     app.register_blueprint(user_blueprint)
 
     return app

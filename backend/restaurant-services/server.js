@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const restaurantRoutes = require('./routes/restaurantRoutes');
+const restaurantRoute = require('./routes/restaurantRoute');
 
 const app = express();
 
@@ -10,18 +10,19 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+const uri = 'mongodb://localhost:27017/restaurant-service'
 
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
 })
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
 
-app.use('/api/restaurants', restaurantRoutes);
+app.use('/api/restaurants', restaurantRoute);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 module.exports = app;
+console.log("\nRestaurant Services is running")

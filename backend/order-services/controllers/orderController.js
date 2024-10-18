@@ -1,4 +1,4 @@
-const orderService = require('../service/orderService');
+const orderService = require('../services/orderService');
 
 exports.createOrder = async (req, res) => {
     try {

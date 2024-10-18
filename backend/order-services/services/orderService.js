@@ -1,6 +1,6 @@
 const Order = require('../models/orderModel');
-const messageBroker = require('../../../common/messageBroker');
-const { logger } = require('../../../common/errorHandler');
+const messageBroker = require('../../common/messageBroker');
+const { logger } = require('../../common/errorHandler');
 
 exports.createOrder = async (orderData) => {
   try {

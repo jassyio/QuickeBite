@@ -12,3 +12,4 @@ venv/
 
 # Folders & Files
 User-Services/instance/
+node_modules
