@@ -19,7 +19,7 @@ function RestaurantList() {
 
   return (
     <div>
-      {/* <h1>Restaurants</h1> */}
+      <h1>Restaurants</h1>
       <ul>
         {restaurants.map((restaurant) => (
           <li key={restaurant.id}>
