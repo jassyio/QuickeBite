@@ -12,7 +12,7 @@ function Login() {
     try {
       const data = await login(email, password);
       localStorage.setItem('token', data.token);
-      navigate('/restaurants');
+      navigate('/Homepage');
     } catch (error) {
       console.error('Login failed:', error);
     }

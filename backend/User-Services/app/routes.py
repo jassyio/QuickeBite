@@ -5,6 +5,10 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 user_blueprint = Blueprint('users', __name__)
 user_service = UserService()
 
+@user_blueprint.route('/')
+def home():
+    return 'Welcome to QuickeBite user services API'
+
 @user_blueprint.route('/register', methods=['POST'])
 def register():
     data = request.get_json()

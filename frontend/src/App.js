@@ -6,19 +6,23 @@ import Login from './components/Auth/Login';
 import RestaurantList from './components/Restaurant/RestaurantList';
 import OrderForm from './components/Order/OrderForm';
 import DeliveryTracker from './components/Delivery/DeliveryTracker';
-
+import Navbar from './components/NavBar/Navbar.js';
+import Homepage from './components/HomePage/Homepage';
+import Signup from './components/Auth/Signup';
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
         <Router>
           <div className="App">
+            <Navbar />
             <Routes>
               <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/restaurants" element={<RestaurantList />} />
               <Route path="/order" element={<OrderForm />} />
               <Route path="/track" element={<DeliveryTracker />} />
-              <Route path="/" element={<RestaurantList />} />
+              <Route path="/" element={<Homepage />} />
             </Routes>
           </div>
         </Router>
