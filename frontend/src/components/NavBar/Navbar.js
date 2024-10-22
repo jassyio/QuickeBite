@@ -5,10 +5,9 @@ import './Navbar.css'; // Import the CSS file
 const Navbar = () => {
   return (
     <nav className="navbar">
-      <div className="logo">
-        <Link to="/">QuickBite</Link>
-      </div>
+      <div className="navbar-logo">QuickBite</div> {/* Make QuickBite a title, not a link */}
       <ul>
+        <li><Link to="/">Home</Link></li> {/* Added Home link */}
         <li><Link to="/restaurants">Restaurants</Link></li>
         <li><Link to="/order">Order</Link></li>
         <li><Link to="/track">Track</Link></li>

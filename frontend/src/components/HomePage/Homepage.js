@@ -1,13 +1,17 @@
-
 import React from 'react';
-import './Homepage.css'; // Import the CSS file
+import './Homepage.css';
 
 const Homepage = () => {
   return (
-    <div className="hero">
+    <div
+      className="hero"
+      style={{
+        backgroundImage: `url(${process.env.PUBLIC_URL}/header_img.png)`, // Correctly referencing image in the public folder
+      }}
+    >
       <div className="container">
         <h1>QuickBite</h1>
-        <p>Welcome to QuickBite, your go-to destination for quick and easy meal ideas. Whether you're looking for a quick snack or a quick meal, we've got you covered.</p>
+        <p>Fast and Delicious Food Delivered to You</p>
       </div>
     </div>
   );

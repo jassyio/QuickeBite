@@ -1,31 +1,55 @@
+/* Homepage styling */
 .hero {
-    height: 100vh;
-    background: url('frontend/public/header_img.png') no-repeat center center/cover;
+    position: relative; /* Allow absolutely positioned children */
+    height: 100vh; /* Full viewport height */
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    text-align: center;
+    align-items: center;
+    color: white; /* Change text color for better visibility */
+    overflow: hidden; /* Hide any overflow */
   }
   
-  .hero h1 {
-    font-size: 4rem;
+  .background-image {
+    position: absolute; /* Position it absolutely */
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    object-fit: cover; /* Cover the entire area without stretching */
+    z-index: -1; /* Place it behind the content */
+  }
+  
+  .content {
+    position: relative; /* Allow positioning of text above the image */
+    text-align: center; /* Center align text */
+  }
+  
+  .content h1 {
+    font-size: 5rem; /* Make the title big */
+    color: #ffcc00; /* Bright yellow color for contrast */
+    font-weight: 900; /* Make the title bold */
+    text-transform: uppercase; /* Capitalize all letters */
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7); /* Add shadow for legibility */
+    letter-spacing: 2px; /* Increase letter spacing */
+    margin: 0;
+    padding: 0;
+  }
+  
+  .content p {
+    font-size: 1.8rem; /* Adjust paragraph font size */
     color: #fff;
-    font-weight: bold;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    margin-top: 1rem;
   }
   
-  .hero p {
-    font-size: 1.5rem;
-    color: #fff;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-  }
-  
+  /* Mobile adjustments */
   @media (max-width: 768px) {
-    .hero h1 {
-      font-size: 3rem;
+    .content h1 {
+      font-size: 3rem; /* Reduce font size on mobile */
     }
   
-    .hero p {
+    .content p {
       font-size: 1.2rem;
     }
   }
