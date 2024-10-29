@@ -14,7 +14,7 @@ function Login() {
     try {
       const data = await login(email, password);
       localStorage.setItem('token', data.token);
-      navigate('/Homepage');
+      navigate('/'); // Change this to your intended homepage route
     } catch (error) {
       console.error('Login failed:', error);
     }

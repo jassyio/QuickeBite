@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getRestaurantById } from '../../services/restaurantService';
 import { createOrder } from '../../services/orderService';
+import Hero from '../Hero';
+import './OrderForm.css';
 
 function OrderForm() {
   const [restaurant, setRestaurant] = useState(null);
@@ -42,30 +44,38 @@ function OrderForm() {
         })),
         totalAmount: items.reduce((total, item) => total + item.price * item.quantity, 0)
       });
-    navigate(`/track?orderId=${order.id}`);
+      navigate(`/track?orderId=${order.id}`);
     } catch (error) {
       console.error('Failed to create order:', error);
     }
   };
 
-  if (!restaurant) return <div>Loading...</div>;
-
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>{restaurant.name}</h2>
-      {orderItems.map((item, index) => (
-        <div key={item.id}>
-          <span>{item.name} - ${item.price}</span>
-          <input
-            type="number"
-            value={item.quantity}
-            onChange={(e) => handleQuantityChange(index, parseInt(e.target.value))}
-            min="0"
-          />
-        </div>
-      ))}
-      <button type="submit">Place Order</button>
-    </form>
+    <Hero title="Place Your Order">
+      <div className="order-form-container">
+        {restaurant ? (
+          <>
+            <h2>{restaurant.name}</h2>
+            <form onSubmit={handleSubmit}>
+              {orderItems.map((item, index) => (
+                <div className="order-item" key={item.id}>
+                  <span>{item.name} - ${item.price}</span>
+                  <input
+                    type="number"
+                    value={item.quantity}
+                    onChange={(e) => handleQuantityChange(index, parseInt(e.target.value))}
+                    min="0"
+                  />
+                </div>
+              ))}
+              <button type="submit" className="order-button">Place Order</button>
+            </form>
+          </>
+        ) : (
+          <div className="loading-placeholder" /> 
+        )}
+      </div>
+    </Hero>
   );
 }
 

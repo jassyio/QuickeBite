@@ -1,0 +1,52 @@
+/* Center content within the hero background */
+.order-form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Order item styling */
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Order button styling */
+.order-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #ffc107;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.order-button:hover {
+  background-color: #e0a800;
+}
+
+/* Hero background and layout consistent with other pages */
+.hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .order-form-container {
+      width: 90%;
+      padding: 1.5rem;
+  }
+}
